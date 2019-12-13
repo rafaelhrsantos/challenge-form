@@ -1,0 +1,13 @@
+{
+  "translations": {
+    "registrationForm": "Registrierungsformular",
+    "emailAddress": "Email Address",
+    "subscribeNewsletter": "Ich möchte einen Newsletter erhalten",
+    "male": "männlich",
+    "female": "weiblich",
+    "genderSelect": "Gender select",
+    "ageDisclaimer": "Ich bin über 13 Jahre alt",
+    "selectOption": "Option auswählen",
+    "submit": "einreichen"
+  }
+}
