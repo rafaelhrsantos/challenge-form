@@ -1,84 +1,131 @@
 import { useTranslation } from 'react-i18next';
-import React from "react";
-import { Button, Container, Form, FormFeedback, FormGroup, FormText, Input, Label } from "reactstrap";
+import React, { useState } from "react";
+import { Alert, Button, Collapse, Container, Form, FormGroup, Label } from "reactstrap";
+import { Field, Formik } from "formik";
+import * as Yup from 'yup';
+import { CustomInputForm } from "./CustomInputForm";
+import { submitUserFrom } from "./api";
 
 export const RegistrationForm = () => {
-  let lang = "";
-
   const [t, i18n] = useTranslation();
 
-  const handleClick = () => {
-    lang =  i18n.language;
+  const [showAgeDisclaimer, setShowAgeDisclaimer] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
-    console.log("ll:", i18n.language);
-  };
-
-  const changeToEN = () => {
-    i18n.changeLanguage('en');
-  };
-
-  const changeToDE = () => {
-    i18n.changeLanguage('de');
-  };
-
-  const runSubmit = () => {
-
-  };
+  const toggleAgeDisclaimer = () => setShowAgeDisclaimer(!showAgeDisclaimer);
+  const dismissAlert = () => setShowAlert(false);
 
   const showGenderSelection = !i18n.language.toLowerCase().includes("de");
   const showNewsletter = !i18n.language.toLowerCase().includes("en");
 
+  const FormSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(t("invalidEmail"))
+      .min(3)
+      .required(t("required")),
+    age: Yup.boolean()
+      .required(t("required"))
+      .oneOf([true], t("invalidAgeCheck")),
+    gender: Yup.string()
+      .notRequired(),
+    newsletter: Yup.boolean()
+      .notRequired(),
+  });
+
+  const runSubmit = async (values: any) => {
+    console.log(values);
+
+    const { result } = await submitUserFrom(values);
+
+    setShowAlert(result === "OK");
+  };
+
+  interface MyFormValues {
+    email: string;
+    age: boolean;
+    gender: string;
+    newsletter: boolean;
+  }
+
+  const initialValues: MyFormValues = {
+    email: '',
+    age: false,
+    gender: '',
+    newsletter: false
+  };
+
   return (
     <Container className={"py-4"}>
-      <button onClick={changeToEN}>EN</button>
-      <button onClick={changeToDE}>DE</button>
-      <div onClick={handleClick}>{"Current lang is:" + i18n.language}</div>
+      {showAlert &&
+        <Alert color="success" toggle={dismissAlert}>
+          {t("formSubmitted")}
+        </Alert>
+      }
 
-      <Form>
-        <FormGroup>
-          <Label for="emailInput">{`${t("emailAddress")} *`}</Label>
-          <Input id={"emailInput"} valid />
-        </FormGroup>
-        <FormGroup>
-          <Label for="exampleEmail">Valid input</Label>
-          <Input valid />
-          <FormFeedback valid tooltip>Sweet! that name is available</FormFeedback>
-          <FormText>Example help text that remains unchanged.</FormText>
-        </FormGroup>
-        <FormGroup>
-          <Label for="examplePassword">Invalid input</Label>
-          <Input invalid />
-          <FormFeedback tooltip>Oh noes! that name is already taken</FormFeedback>
-          <FormText>Example help text that remains unchanged.</FormText>
-        </FormGroup>
-        <FormGroup>
-          <Label for="genderSelect">{t("genderSelect")}</Label>
-          <Input type="select" name="select" id="genderSelect">
-            <option selected>{`-- ${t("selectOption")} --`}</option>
-            <option>{t("male")}</option>
-            <option>{t("female")}</option>
-          </Input>
-        </FormGroup>
-        {showGenderSelection &&
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" />
-              {' ' + t("ageDisclaimer")}
-            </Label>
-          </FormGroup>
+      <Formik<MyFormValues>
+        initialValues={initialValues}
+        validationSchema={FormSchema}
+        validate={() => {}}
+        onSubmit={runSubmit}
+      >
+        {formikBag =>
+          <Form onSubmit={formikBag.handleSubmit}>
+            <FormGroup>
+              <Label for="email">{`${t("emailAddress")} *`}</Label>
+              <Field name="email" type={'email'} component={CustomInputForm}/>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Field name="age" type={'checkbox'} component={CustomInputForm}/>
+                {` ${t("ageCheck")} *`}
+              </Label>
+              <Button className={"ml-3"} outline={true} size="sm" onClick={toggleAgeDisclaimer}>?</Button>
+              <Collapse isOpen={showAgeDisclaimer}>
+              <div className={"p-3"}>
+                {t("ageDisclaimer")}
+              </div>
+            </Collapse>
+            </FormGroup>
+            {showGenderSelection &&
+            <FormGroup tag="fieldset" className={"pt-2"}>
+              <Label>{t("genderSelect")}</Label>
+              <FormGroup check>
+                <Label check>
+                  <Field type="radio" name="gender" value={"male"} component={CustomInputForm}/>
+                  {` ${t("male")}`}
+                </Label>
+              </FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Field type="radio" name="gender" value={"female"} component={CustomInputForm}/>
+                  {` ${t("female")}`}
+                </Label>
+              </FormGroup>
+              </FormGroup>
+            }
+            {showNewsletter &&
+            <FormGroup check>
+              <Label check>
+                <Field name="newsletter" type={'checkbox'} component={CustomInputForm}/>
+                {' ' + t("subscribeNewsletter")}
+              </Label>
+            </FormGroup>
+            }
+            <FormGroup className={"py-4"}>
+              <Button className={"w-25"} type="submit" disabled={formikBag.isSubmitting}>
+                {!formikBag.isSubmitting
+                  ? t("submit")
+                  : <span
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                }
+              </Button>
+            </FormGroup>
+          </Form>
         }
-        {showNewsletter &&
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox"/>
-              {' ' + t("subscribeNewsletter")}
-            </Label>
-          </FormGroup>
-        }
-        <FormGroup className={"py-4"}>
-          <Button onClick={runSubmit}>{t("submit")}</Button>
-        </FormGroup>
-      </Form>
+      </Formik>
     </Container>
   );
 };

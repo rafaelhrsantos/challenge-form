@@ -1,13 +1,17 @@
 {
   "translations": {
     "registrationForm": "Registrierungsformular",
-    "emailAddress": "Email Address",
+    "emailAddress": "Email-Addresse",
+    "invalidEmail": "Ungültige Email",
     "subscribeNewsletter": "Ich möchte einen Newsletter erhalten",
     "male": "männlich",
     "female": "weiblich",
     "genderSelect": "Gender select",
-    "ageDisclaimer": "Ich bin über 13 Jahre alt",
-    "selectOption": "Option auswählen",
-    "submit": "einreichen"
+    "ageCheck": "Ich bin über 13 Jahre alt",
+    "invalidAgeCheck": "Sie müssen Ihr Alter bestätigen",
+    "ageDisclaimer": "Laut Gesetz müssen Sie älter als 13 Jahre sein!",
+    "required": "Erforderlich",
+    "submit": "einreichen",
+    "formSubmitted": "Formular mit Erfolg eingereicht"
   }
 }

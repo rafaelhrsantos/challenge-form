@@ -1,5 +1,30 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Motivation
+This is project was created as a demo exercise for an interview.
+
+## Used libraries
+React, ReactDOM
+- base library used for the page construction and rendering
+
+Bootstrap, Reactstrap
+- provides components to build pages with a set of basic style rules 
+
+i18next, react-i18next
+- support for a multilanguage application
+- manages current language, allows changing language dynamically
+- allows easy loading of translation files
+
+i18next-browser-languagedetector:
+- support for automatic language detection
+- allows the application to change language based on query string (example: ?lgn=en-EN or ?lgn=de-DE)
+
+formik
+- used to manage form state and actions (submission, validation, etc...)
+
+yup
+- provides schema validation. used together with formik to validate form
+
 ## Available Scripts
 
 In the project directory, you can run:
