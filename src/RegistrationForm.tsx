@@ -23,7 +23,7 @@ export const RegistrationForm = () => {
       .email(t("invalidEmail"))
       .min(3)
       .required(t("required")),
-    age: Yup.boolean()
+    ageCheck: Yup.boolean()
       .required(t("required"))
       .oneOf([true], t("invalidAgeCheck")),
     gender: Yup.string()
@@ -42,14 +42,14 @@ export const RegistrationForm = () => {
 
   interface MyFormValues {
     email: string;
-    age: boolean;
+    ageCheck: boolean;
     gender: string;
     newsletter: boolean;
   }
 
   const initialValues: MyFormValues = {
     email: '',
-    age: false,
+    ageCheck: false,
     gender: '',
     newsletter: false
   };
@@ -76,7 +76,7 @@ export const RegistrationForm = () => {
             </FormGroup>
             <FormGroup check>
               <Label check>
-                <Field name="age" type={'checkbox'} component={CustomInputForm}/>
+                <Field name="ageCheck" type={'checkbox'} component={CustomInputForm}/>
                 {` ${t("ageCheck")} *`}
               </Label>
               <Button className={"ml-3"} outline={true} size="sm" onClick={toggleAgeDisclaimer}>?</Button>

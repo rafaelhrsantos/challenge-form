@@ -1,6 +1,4 @@
 import React, { Suspense } from 'react';
-// import logo from './logo.svg';
-import './App.css';
 import "bootstrap/dist/css/bootstrap.css";
 import { RegistrationForm } from "./RegistrationForm";
 import { DropdownItem, DropdownMenu, DropdownToggle, Navbar, NavbarBrand, UncontrolledDropdown } from "reactstrap";

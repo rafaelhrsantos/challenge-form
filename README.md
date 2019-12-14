@@ -17,13 +17,13 @@ i18next, react-i18next
 
 i18next-browser-languagedetector:
 - support for automatic language detection
-- allows the application to change language based on query string (example: ?lgn=en-EN or ?lgn=de-DE)
+- allows the application to change language based on query string (example: ?lng=en-EN or ?lng=de-DE)
 
 formik
-- used to manage form state and actions (submission, validation, etc...)
+- manages form state and actions (submission, validation, etc...)
 
 yup
-- provides schema validation. used together with formik to validate form
+- provides schema validation. used together with formik to validate form data
 
 ## Available Scripts
 
