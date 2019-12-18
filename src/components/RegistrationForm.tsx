@@ -4,7 +4,7 @@ import { Alert, Button, Collapse, Container, Form, FormGroup, Label } from "reac
 import { Field, Formik } from "formik";
 import * as Yup from 'yup';
 import { CustomInputForm } from "./CustomInputForm";
-import { submitUserFrom } from "./api";
+import { submitUserForm } from "../services/api";
 
 export const RegistrationForm = () => {
   const [t, i18n] = useTranslation();
@@ -35,7 +35,7 @@ export const RegistrationForm = () => {
   const runSubmit = async (values: any) => {
     console.log(values);
 
-    const { result } = await submitUserFrom(values);
+    const { result } = await submitUserForm(values);
 
     setShowAlert(result === "OK");
   };
@@ -70,48 +70,48 @@ export const RegistrationForm = () => {
       >
         {formikBag =>
           <Form onSubmit={formikBag.handleSubmit}>
-            <FormGroup>
+            <FormGroup id={"email"}>
               <Label for="email">{`${t("emailAddress")} *`}</Label>
-              <Field name="email" type={'email'} component={CustomInputForm}/>
+              <Field name="email" type={'email'} component={CustomInputForm} />
             </FormGroup>
-            <FormGroup check>
+            <FormGroup check id={"ageCheck"}>
               <Label check>
                 <Field name="ageCheck" type={'checkbox'} component={CustomInputForm}/>
                 {` ${t("ageCheck")} *`}
               </Label>
               <Button className={"ml-3"} outline={true} size="sm" onClick={toggleAgeDisclaimer}>?</Button>
               <Collapse isOpen={showAgeDisclaimer}>
-              <div className={"p-3"}>
-                {t("ageDisclaimer")}
-              </div>
-            </Collapse>
+                <div className={"p-2"}>
+                  {t("ageDisclaimer")}
+                </div>
+              </Collapse>
             </FormGroup>
             {showGenderSelection &&
-            <FormGroup tag="fieldset" className={"pt-2"}>
-              <Label>{t("genderSelect")}</Label>
-              <FormGroup check>
-                <Label check>
-                  <Field type="radio" name="gender" value={"male"} component={CustomInputForm}/>
-                  {` ${t("male")}`}
-                </Label>
-              </FormGroup>
-              <FormGroup check>
-                <Label check>
-                  <Field type="radio" name="gender" value={"female"} component={CustomInputForm}/>
-                  {` ${t("female")}`}
-                </Label>
-              </FormGroup>
+              <FormGroup tag="fieldset" className={"pt-2"} id={"gender"}>
+                <Label>{t("genderSelect")}</Label>
+                <FormGroup check>
+                  <Label check>
+                    <Field type="radio" name="gender" value={"male"} component={CustomInputForm}/>
+                    {` ${t("male")}`}
+                  </Label>
+                </FormGroup>
+                <FormGroup check>
+                  <Label check>
+                    <Field type="radio" name="gender" value={"female"} component={CustomInputForm}/>
+                    {` ${t("female")}`}
+                  </Label>
+                </FormGroup>
               </FormGroup>
             }
             {showNewsletter &&
-            <FormGroup check>
-              <Label check>
-                <Field name="newsletter" type={'checkbox'} component={CustomInputForm}/>
-                {' ' + t("subscribeNewsletter")}
-              </Label>
-            </FormGroup>
+              <FormGroup check id={"newsletter"}>
+                <Label check>
+                  <Field name="newsletter" type={'checkbox'} component={CustomInputForm}/>
+                  {' ' + t("subscribeNewsletter")}
+                </Label>
+              </FormGroup>
             }
-            <FormGroup className={"py-4"}>
+            <FormGroup className={"py-4"} id={"submit"}>
               <Button className={"w-25"} type="submit" disabled={formikBag.isSubmitting}>
                 {!formikBag.isSubmitting
                   ? t("submit")

@@ -25,6 +25,9 @@ formik
 yup
 - provides schema validation. used together with formik to validate form data
 
+enzyme
+- provides utility functions for testing react components
+
 ## Available Scripts
 
 In the project directory, you can run:
